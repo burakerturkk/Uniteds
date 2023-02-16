@@ -1,0 +1,18 @@
+﻿@model Uniteds.Models.Note
+@{
+    ViewData["Title"] = "AddTopNote";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2>Add Top Note</h2>
+@using (Html.BeginForm("AddTopNote", "Main", FormMethod.Post))
+{
+    <br />
+    @Html.Label("Note Content")
+    @Html.TextBoxFor(x => x.Content, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-primary">Save</button>
+
+}
+

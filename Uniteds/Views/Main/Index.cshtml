@@ -1,0 +1,95 @@
+﻿@model List<Uniteds.Models.Note>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+    .open {
+        height: auto;
+        transition: 0.5s
+    }
+
+    .close {
+        height: 0;
+        visibility: hidden !important;
+    }
+
+    .trvisible {
+        visibility: visible;
+    }
+</style>
+<script>
+    $(document).on('click', '#subOpen', function () {
+        let sub = $(this).attr("value");
+        $('#noteTable').children().each(function () {
+            let subTable = $(this);
+            if (subTable.attr('value') === sub) {
+                subTable.removeClass('close')
+                subTable.addClass('open')
+                setTimeout(function () {
+                    subTable.addClass('trvisible')
+                }, 1000)
+            }
+            else if (subTable.attr('value') !== undefined) {
+                subTable.removeClass('trvisible')
+                subTable.removeClass('open')
+                subTable.addClass('close')
+            }
+        })
+    })
+</script>
+<div class="col mt-3">
+    <table id=" " class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <td></td>
+                <td>Note Content</td>
+            </tr>
+        </thead>
+        <tbody id="noteTable">
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td id="spanTriger" style="width:20px">
+                    <a class="btn btn-primary" id="subOpen" value="sub@(@item.Id)">+</a>
+                </td>
+                <td style="width:max-content">@item.Content</td>
+                <td><a href="/Main/DeleteTopNote/@item.Id" class="btn btn-danger">Delete</a></td>
+            </tr>
+                <tr id="subTableArea" value="sub@(@item.Id)" class="close">
+                    <td colspan="15">
+                        <table id="example" class="table table-bordered table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <td>Sub Note Content</td>
+                                    <td>Top Note Id</td>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var subitem in item.SubNote)
+                                {
+                                    <tr>
+                                        <td>@subitem.Content</td>
+                                        <td>@subitem.NoteId </td>
+                                        <td><a href="/Main/DeleteSubNote/@subitem.Id" class="btn btn-danger">Delete</a></td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <a href="/Main/AddSubNote" class="btn btn-primary">Add Sub Note</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tr>
+            <td>
+                <a href="/Main/AddTopNote" class="btn btn-primary">Add Top Note</a>
+            </td>
+        </tr>
+    </table>
+</div>
+

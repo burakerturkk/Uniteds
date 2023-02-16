@@ -1,0 +1,20 @@
+﻿@model Uniteds.Models.SubNote
+@{
+    ViewData["Title"] = "AddSubNote";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2>Add Sub Note</h2>
+@using (Html.BeginForm("AddSubNote", "Main", FormMethod.Post))
+{
+    <br />
+    @Html.Label("Note Content")
+    @Html.TextBoxFor(x => x.Content, new { @class = "form-control" })
+    <br />
+    @Html.Label("Top Note")
+    @Html.DropDownListFor(x => x.Id, (List<SelectListItem>)ViewBag.v1, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-primary">Save</button>
+
+}
